@@ -4,12 +4,13 @@ Modules installed with pip: opencv-python, fpdf
 WEBCAM_PATH can be modified to 0 to use system camera.
 """
 
-import cv2, os, shutil
+import cv2, os, shutil, sys
 from fpdf import FPDF
 
 NEPTUN = "NEPTUNCODE"
 WEBCAM_PATH = "http://192.168.0.213:8080/video" #using IP Webcam app
 QUIT_KEY = 'q'
+QUIT_IMG_MODE_KEY = 'w'
 PHOTO_KEY = ' '
 
 cam = cv2.VideoCapture(WEBCAM_PATH)
@@ -17,7 +18,7 @@ cv2.namedWindow("capture")
 
 if not cam.isOpened():
     print("Cannot open camera")
-    exit()
+    sys.exit()
 
 imgid = 1
 img_names = []
@@ -35,6 +36,10 @@ while True:
 
     if key == ord(QUIT_KEY):
         break
+        
+    if key == ord(QUIT_IMG_MODE_KEY):
+        cv2.destroyAllWindows()
+        sys.exit()
 
     if key == ord(PHOTO_KEY):
         img_name = "{}.jpg".format(imgid)
