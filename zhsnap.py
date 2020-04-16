@@ -1,7 +1,19 @@
 """
-ZHSnap - automatically create PDF and ZIP files out of photos taken.
-Modules installed with pip: opencv-python, fpdf
-WEBCAM_PATH can be modified to 0 to use system camera.
+ZHSnap - take photos and automatically create PDF and ZIP files in working directory
+         (or just save the jpgs). Default filename (without suffix): zh_NEPTUNCODE, 
+         jpg files are numbered in ascending order.
+---
+Packages installed (with pip): opencv-python, fpdf
+---
+Instructions:
+  1) modify NEPTUN variable accordingly
+  2) start server in IP Webcam (if you want to use it, WEBCAM_PATH can be modified 
+                                to 0 to use primary system camera)
+  3) run zhsnap.py
+  4) press space to take a photo (to modify edit PHOTO_KEY)
+  5) quitting
+     a) to only save the jpg files press w (to modify edit QUIT_IMG_MODE_KEY)
+     b) to create ZIP and PDF press q (to modify edit QUIT_KEY)
 """
 
 import cv2, os, shutil, sys
