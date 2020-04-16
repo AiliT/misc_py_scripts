@@ -6,7 +6,7 @@ ZHSnap - take photos and automatically create PDF and ZIP files in working direc
 Packages installed (with pip): opencv-python, fpdf
 ---
 Instructions:
-  1) modify NEPTUN variable accordingly
+  1) modify FILENAME variable accordingly
   2) start server in IP Webcam (if you want to use it, WEBCAM_PATH can be modified 
                                 to 0 to use primary system camera)
                                 [suggested setting: video preferences -> orientation: portrait]
@@ -20,7 +20,7 @@ Instructions:
 import cv2, os, shutil, sys
 from fpdf import FPDF
 
-NEPTUN = "NEPTUNCODE"
+FILENAME = "zh_NEPTUNCODE"
 WEBCAM_PATH = "http://192.168.0.213:8080/video" #using IP Webcam app
 QUIT_KEY = 'q'
 QUIT_IMG_MODE_KEY = 'w'
@@ -64,7 +64,7 @@ while True:
 
 cv2.destroyAllWindows()
 
-dirname = "zh_{}".format(NEPTUN)
+dirname = FILENAME
 os.mkdir(dirname)
 pdf = FPDF()
 pdf.set_auto_page_break(0)
