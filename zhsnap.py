@@ -9,6 +9,7 @@ Instructions:
   1) modify NEPTUN variable accordingly
   2) start server in IP Webcam (if you want to use it, WEBCAM_PATH can be modified 
                                 to 0 to use primary system camera)
+                                [suggested setting: video preferences -> orientation: portrait]
   3) run zhsnap.py
   4) press space to take a photo (to modify edit PHOTO_KEY)
   5) quitting
