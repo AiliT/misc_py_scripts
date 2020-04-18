@@ -71,7 +71,7 @@ pdf.set_auto_page_break(0)
 
 for i in img_names:
     pdf.add_page()
-    pdf.image(i)
+    pdf.image(i, w = 190)
     shutil.move(i, dirname)
     
 pdf.output("{}.pdf".format(dirname), 'F')
