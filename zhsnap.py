@@ -27,6 +27,7 @@ QUIT_IMG_MODE_KEY = 'w'
 PHOTO_KEY = ' '
 
 cam = cv2.VideoCapture(WEBCAM_PATH)
+cam.set(cv2.CAP_PROP_BUFFERSIZE, 0)
 cv2.namedWindow("capture")
 
 if not cam.isOpened():
