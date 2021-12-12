@@ -14,6 +14,11 @@ while (not os.path.exists(target)):
 #get url to download from
 url = input("Give me a URL to download files from: ")
 
+#get needed extension (file type to download)
+ext = input("Give me an extension to limit downloads to (default: pdf): ")
+if ext == "":
+    ext = "pdf"
+
 while (True):
     try:
         if requests.get(url).status_code == requests.codes.ok:
@@ -35,12 +40,18 @@ def is_pdf_file(tag):
 
 tries = 0
 downloads = 0
+names = set()
 
 #find all pdfs
 for i in soup.find_all(is_pdf_file):
 
     #get the filename
     name = i['href']
+    
+    # skip duplicates
+    if name in names:
+        continue
+    names.add(name)
 
     #inform user
     print("Downloading " + name)
