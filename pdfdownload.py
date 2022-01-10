@@ -14,11 +14,6 @@ while (not os.path.exists(target)):
 #get url to download from
 url = input("Give me a URL to download files from: ")
 
-#get needed extension (file type to download)
-ext = input("Give me an extension to limit downloads to (default: pdf): ")
-if ext == "":
-    ext = "pdf"
-
 while (True):
     try:
         if requests.get(url).status_code == requests.codes.ok:
@@ -29,21 +24,34 @@ while (True):
         print("Couldn't open URL. Please try again (or hit CTRL+C to exit).")
         url = input("Give me a URL to download files from: ")
 
+#get needed extension (file type to download)
+ext = input("Give me an extension to limit downloads to (default: pdf): ")
+if ext == "":
+    ext = "pdf"
+
 #open url
 r = requests.get(url)
 soup = BeautifulSoup(r.text, 'html.parser')
 
 #define function that finds all pdf urls
-def is_pdf_file(tag):
-    return tag.has_attr('href') and tag['href'].endswith('.pdf')
+def has_ext(tag):
+    return tag.has_attr('href') and tag['href'].endswith(f".{ext}")
 
+# fixes url
+if not url.endswith("/"):
+    x = url.split("/")
+    url = "/".join(x[:len(x) - 1]) + "/"
+
+# fixes target path
+if not target.endswith(os.path.sep):
+    target += os.path.sep
 
 tries = 0
 downloads = 0
 names = set()
 
 #find all pdfs
-for i in soup.find_all(is_pdf_file):
+for i in soup.find_all(has_ext):
 
     #get the filename
     name = i['href']
@@ -59,8 +67,12 @@ for i in soup.find_all(is_pdf_file):
     #save file to the target directory
     try:
         tries += 1
+
+        # extract file name from download path
+        tname_parts = name.split("/")
+        tname = tname_parts[len(tname_parts) - 1]
         
-        with open(target + name, 'wb') as f:
+        with open(target + tname, 'wb') as f:
             f.write(requests.get(url + name).content)
 
         downloads += 1
