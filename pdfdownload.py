@@ -4,12 +4,18 @@ import os.path
 
 
 #get path to save files to
-target = input("Give me a path to save files to: ")
+target = input("Give me a path to save files to (default: current folder): ")
 
-while (not os.path.exists(target)):   
-    print("Invalid filename. Please try again (or hit CTRL+C to exit).")
+while (not os.path.exists(target)):
+    if (target == ""):
+        target = "."
+        break
+    
+    print("Invalid filename. Please try again or leave empty for default path.")
     target = input("Give me a path to save files to: ")
 
+if target[-1] != "\\":
+    target = target + "\\"
 
 #get url to download from
 url = input("Give me a URL to download files from: ")
@@ -69,11 +75,15 @@ for i in soup.find_all(has_ext):
         tries += 1
 
         # extract file name from download path
-        tname_parts = name.split("/")
-        tname = tname_parts[len(tname_parts) - 1]
+        tname = name.split("/")[-1]
         
         with open(target + tname, 'wb') as f:
-            f.write(requests.get(url + name).content)
+            # check if relative or absolute path is given for file
+            if name.startswith('/'):
+                baseurl = url[:url.index('/', len('https://') + 1)]
+                f.write(requests.get(baseurl + name).content)
+            else:
+                f.write(requests.get(url + name).content)
 
         downloads += 1
     except:
